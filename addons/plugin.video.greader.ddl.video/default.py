@@ -1,6 +1,5 @@
 import pickle
 from libgreader import GoogleReader, OAuthMethod, ClientAuth, Feed
-from BeautifulSoup import BeautifulSoup
 import html2text
 import rarfile
 import urllib
@@ -12,14 +11,13 @@ import sys
 import os
 import inspect
 import re
-import base64
 import md5
 import traceback
 import time
 from datetime import datetime
 from pprint import pprint
 
-DEBUG = True
+DEBUG = False
 
 xbmcplugin.setContent(int(sys.argv[1]), 'movies')
 
