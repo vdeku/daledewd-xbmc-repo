@@ -1,0 +1,16 @@
+Dharma addon to browse through a Google Reader account and stream any hotfile download links found on the resulting feed page.
+I prefer to use Google Reader instead of having to deal with each sites individual feeds, like rlslog/rlsbb/scnrls, plus searching feed history is nice.
+Right now it only streams from hotfile as it's the only premium account I've kept alive.
+It may already allow downloading through the File Manager but I have code ready for a custom context menu entry that works but it's not active.
+
+REQUIREMENTS:
+* Google Reader account.
+* Premium hotfile account.
+* Feeds need to be in at least one folder/category in Google Reader because this script gets a list of folders as the initial index and then drills down from there.
+  You can use an existing Reader account as this script won't effect any of your feeds.
+
+MULTIPART RARS:
+To stream multipart rars you must create, or add a line to, the autoexec.py file in the userdata folder.
+See the autoexec.py file provided with this module which you may copy or use as an example.
+Restart XBMC to have it loaded. Then go to the GReader DDL addon settings and enable the REDIRECT SERVER.
+If you receive a REDIRECT SERVER CONNECT error then try changing the port number also in the addon settings.

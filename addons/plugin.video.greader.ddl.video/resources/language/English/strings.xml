@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <!-- Plugin settings strings -->
+    <string id="30000">GReader Username</string>
+    <string id="30005">GReader Password</string>
+    <string id="30010">Hotfile Username</string>
+    <string id="30015">Hotfile Password</string>
+    <string id="30020">Use URL Redirect Server?</string>
+    <string id="30025">URL Redirect Server Port</string>
+</strings>
