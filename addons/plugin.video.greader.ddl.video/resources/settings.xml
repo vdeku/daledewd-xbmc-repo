@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <setting id="greader_user" type="text" label="30000" default="" />
+    <setting id="greader_pass" type="text" option="hidden" label="30005" enable="!eq(-1,)" default="" />
+    <setting id="hotfile_user" type="text" label="30010" default="" />
+    <setting id="hotfile_pass" type="text" option="hidden" label="30015" enable="!eq(-1,)" default="" />
+    <setting id="use_redirect_server" type="bool" label="30020" default="false" />
+    <setting id="redirect_server_port" type="number" label="30025" enable="eq(-1,true)" default="5150" />
+</settings>

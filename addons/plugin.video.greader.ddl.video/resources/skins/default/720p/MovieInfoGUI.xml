@@ -1,0 +1,115 @@
+<window>
+    <defaultcontrol>50</defaultcontrol>
+	<coordinates>
+		<system>1</system>
+		<posx>80</posx>
+		<posy>13</posy>
+	</coordinates>
+	<controls>
+		<!-- ** Background image ** -->
+		<control type="image">
+			<description>Background Image</description>
+			<posx>-49</posx>
+			<posy>18</posy>
+			<width>1200</width>
+			<height>650</height>
+			<texture>dialog-panel.png</texture>
+		</control>
+		
+		<!-- ** Title ** -->
+		<control type="label" id="10">
+			<description>Title</description>
+			<posx>1</posx>
+			<posy>45</posy>
+			<width>1100</width>
+			<align>left</align>
+			<font>font12</font>
+            <textcolor>FFFFFFFF</textcolor>
+		</control>
+		
+        <control type="grouplist" id="100">
+            <itemgap>10</itemgap>
+			<posx>1</posx>
+			<posy>70</posy>
+            <width min="10" max="200">auto</width>
+            <height>30</height>
+			<align>left</align>
+
+		<!-- ** Date / time ** -->
+		<control type="label" id="20">
+			<description>Date + Time</description>
+            <width min="10" max="100">auto</width>
+			<font>font12</font>
+            <textcolor>0xBBFFFFFF</textcolor>
+		</control>
+
+		<!-- ** Author ** -->
+		<control type="label" id="30">
+			<description>Author</description>
+			<font>font12</font>
+            <textcolor>FFe2ff43</textcolor>
+		</control>
+
+        </control>
+        
+		<!-- ** Separator line ** -->
+		<control type="image">
+			<posx>1</posx>
+			<posy>100</posy>
+			<width>1100</width>
+			<height>10</height>
+			<texture>separator.png</texture>
+		</control>		
+		
+		<!-- ** Content ** -->
+		<control type="textbox" id="40">
+			<description>Content</description>
+			<posx>30</posx>
+			<posy>115</posy>
+			<width>1000</width>
+			<height>470</height>
+			<pagecontrol>45</pagecontrol>
+			<font>font12</font>
+			<textcolor>0xBBFFFFFF</textcolor>
+			<autoscroll delay="2000" time="2000" repeat="5000">True</autoscroll>			
+		</control>
+
+		<!-- ** Spin control for Content -->
+  		<control type="spincontrol" id="45">
+			<posx>1</posx>
+			<posy>1050</posy>
+			<subtype>page</subtype>
+			<font>font10</font>
+       		<textcolor>ffffffff</textcolor>
+			<onup>50</onup>
+			<ondown>50</ondown>
+			<onleft>50</onleft>
+			<onright>50</onright>
+			<showonepage>false</showonepage>
+            <textureup>scroll-up.png</textureup>
+            <texturedown>scroll-down.png</texturedown>
+            <textureupfocus>scroll-up-focus.png</textureupfocus>
+            <texturedownfocus>scroll-down-focus.png</texturedownfocus>
+		</control>
+
+		<!-- ** OK button ** -->
+		<control type="button" id="50">
+			<description>OK button</description>
+			<posx>40</posx>
+			<posy>590</posy>
+			<width>100</width>
+			<height>30</height>
+			<align>center</align>
+			<aligny>center</aligny>
+			<textcolor>ffffffff</textcolor>
+			<texturefocus>keyboard-btn-space-focus.png</texturefocus>
+			<texturenofocus>keyboard-btn-space.png</texturenofocus>
+			<disabledcolor>60d0d0d0</disabledcolor>
+			<shadowcolor>ff000000</shadowcolor>
+			<onup>45</onup>
+			<onleft>45</onleft>
+			<onright>45</onright>
+			<ondown>45</ondown>
+		</control>		
+	</controls>
+</window>
