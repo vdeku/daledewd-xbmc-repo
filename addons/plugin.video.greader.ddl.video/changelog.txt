@@ -1,4 +1,7 @@
 	Sat Jan 29 18:36:51 CST 2011	daledewd@gmail.com
+v1.2.5. Fixing the repository install file. Stupid Google!
+
+	Sat Jan 29 18:36:51 CST 2011	daledewd@gmail.com
 v1.2.4. Validate links in parallel for speed up. Created repository for easier updating to XBMC clients.
 
 	Sat Jan 29 14:40:22 CST 2011	daledewd@gmail.com
