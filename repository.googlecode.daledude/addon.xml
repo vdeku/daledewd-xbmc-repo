@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.googlecode.daledude" name="DaleDude Add-ons" version="1.0.0" provider-name="daledude">
+<addon id="repository.googlecode.daledude" name="DaleDude Add-ons" version="1.0.1" provider-name="daledude">
 	<extension point="xbmc.addon.repository" name="DaleDude Add-on Repository">
 		<info compressed="false">http://daledewd-xbmc-repo.googlecode.com/svn/repository.googlecode.daledude/addonsinfo.xml</info>
-		<checksum></checksum>
+		<checksum>http://daledewd-xbmc-repo.googlecode.com/svn/repository.googlecode.daledude/addonsinfo.xml.md5</checksum>
 		<datadir zip="false">http://daledewd-xbmc-repo.googlecode.com/svn/addons</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
