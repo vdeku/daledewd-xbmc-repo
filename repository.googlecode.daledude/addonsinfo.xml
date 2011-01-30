@@ -2,7 +2,7 @@
 <addons>
 <addon id="plugin.video.greader.ddl.video"
        name="GReader DDL Video"
-       version="1.2.4"
+       version="1.2.5"
        provider-name="daledude">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
