@@ -17,6 +17,9 @@ import time
 from datetime import datetime
 from pprint import pprint
 
+from TaskQueue import TaskQueue
+from threading import Thread
+
 DEBUG = False
 
 xbmcplugin.setContent(int(sys.argv[1]), 'movies')
@@ -417,32 +420,53 @@ def getSingleFileLinks( text ):
     if not link_matches:
         doLog( "getSingleFileLinks no links found" )
         dp.update(100,"None found")
-        del dp
+        #del dp
+        dp.close()
         return links
 
     dp.update(0, "Removing duplicate links")
     link_matches[:] = dedupeList( link_matches, 0 )
 
-    if link_matches:
-        doLog( "getSingleFileLinks iterate over link matches" )
-        percent_done = 0
-        #for link,name,extension,rar in link_matches:
-        for link,name,extension in link_matches:
-            parsed_url = urlparse(link)
-            dp.update(percent_done, "Validating link:", parsed_url[1], parsed_url[2].split("/")[-1])
-            doLog( "getSingleFileLinks appending:\nLINK: %s\nNAME: %s\nEXT: %s" % ( link, name, extension ) )
-            valid_link = getHFLink( hotfile_user, hotfile_pass, link )
+    num_fetch_threads = 4
+    url_queue = TaskQueue()
+    def validateUrlsThread(i, q):
+        """This is the worker thread function.
+        It processes items in the queue one after
+        another.  These daemon threads go into an
+        infinite loop, and only exit when
+        the main thread ends.
+        """
+        while True:
+            url = q.get()
+            valid_link = getHFLink( hotfile_user, hotfile_pass, url )
             if valid_link:
-                dp.update(percent_done, "Link is good:", link)
+                dp.update(0, "Link is good:", url)
                 links.append( valid_link )
             else:
-                dp.update(percent_done, "Link is bad:", link)
-                doLog( "getSingleFileLinks NOT ADDING: " + link )
-            percent_done += 1
+                dp.update(0, "Link is bad:", url)
+                doLog( "getSingleFileLinks NOT ADDING: " + url )
+            q.task_done()
+
+    # Set up some threads to validate the urls
+    for i in range(num_fetch_threads):
+        worker = Thread(target=validateUrlsThread, args=(i, url_queue,))
+        worker.setDaemon(True)
+        worker.start()
+
+    if link_matches:
+        doLog( "getSingleFileLinks iterate over link matches" )
+        for link,name,extension in link_matches:
+            parsed_url = urlparse(link)
+            dp.update(0, "Validating link:", parsed_url[1], parsed_url[2].split("/")[-1])
+            doLog( "getSingleFileLinks appending:\nLINK: %s\nNAME: %s\nEXT: %s" % ( link, name, extension ) )
+            url_queue.put(link)
+        # wait for queue to empty which means all urls validated
+        url_queue.join()
 
     doLog( "getSingleFileLinks done" )
     dp.update(100, "Done getting single file links!")
-    del dp
+    #del dp
+    dp.close()
     return links
 
 
