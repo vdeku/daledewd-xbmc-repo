@@ -1,20 +1,44 @@
-	Sat Jan 29 18:36:51 CST 2011	daledewd@gmail.com
-v1.2.5. Fixing the repository install file. Stupid Google!
+[B]v1.2.6[/B]
+- Fix freezing with "working..." notice because dialog closing race condition. Had to remove dialog update statuses when parsing links for now.
 
-	Sat Jan 29 18:36:51 CST 2011	daledewd@gmail.com
-v1.2.4. Validate links in parallel for speed up. Created repository for easier updating to XBMC clients.
+[B]v1.2.5[/B]
+- Fixing the repository install file. Stupid Google!
 
-	Sat Jan 29 14:40:22 CST 2011	daledewd@gmail.com
-v1.2.2. Made httpserver.py threaded. Added status of what file/volume is being processed in multirars.
+[B]v1.2.4[/B]
+- Validate links in parallel for speed up.
+- Created repository for easier updating to XBMC clients.
 
-v1.2.1. Using rarfile.py library to find videos in archives. Makes archive streaming *much* more reliable. Should display a notice if passworded archives or archives within archives are detected. Fixed more rar regex matching. Added DEBUG boolean to cut down on debug output.
+[B]v1.2.2[/B]
+- Made httpserver.py threaded.
+- Added status of what file/volume is being processed in multirars.
 
-v1.1.1.. Bug fixes for multipart, and single file, rar regex. Added "informative" progress dialogs. Sort multipart rars for sites that don't already (freshswap). Fix iframe handling for sites that use them (katz). Fixed "Mark feed as read" code. Small performance enhancements. Remove unnecessary debug code. Preparing for other ddl services using jdownloader.
+[B]v1.2.1[/B]
+- Using rarfile.py library to find videos in archives. Makes archive streaming *much* more reliable. Should display a notice if passworded archives or archives within archives are detected.
+- Fixed more rar regex matching.
+- Added DEBUG boolean to cut down on debug output.
 
-v1.1.0. Streams multirar videos (requires autoexec.py). If hotfile links are in the RSS feed then change color of title to white to stand out (does not mean there are no hotfile links on the actual website page the rss feed points to. this is just for convenience). Misc bug fixes.
+[B]v1.1.1[/B]
+- Bug fixes for multipart, and single file, rar regex. Added "informative" progress dialogs.
+- Sort multipart rars for sites that don't already (freshswap).
+- Fix iframe handling for sites that use them (katz).
+- Fixed "Mark feed as read" code.
+- Small performance enhancements.
+- Remove unnecessary debug code.
+- Preparing for other ddl services using jdownloader.
 
-v1.0.3. Better hotfile link finding. Handle feeds that use iframes such as katz.
+[B]v1.1.0[/B]
+- Streams multirar videos (requires autoexec.py).
+- If hotfile links are in the RSS feed then change color of title to white to stand out (does not mean there are no hotfile links on the actual website page the rss feed points to. this is just for convenience).
+- Misc bug fixes.
 
-v1.0.2. Fixed search bugs. Show feed content in Movie Information dialog.
+[B]v1.0.3[/B]
+- Better hotfile link finding.
+- Handle feeds that use iframes such as katz.
 
-v1.0.1. Added search. Added Mark Feed Read to context menu.
+[B]v1.0.2[/B]
+- Fixed search bugs.
+- Show feed content in Movie Information dialog.
+
+[B]v1.0.1[/B]
+- Added search.
+- Added Mark Feed Read to context menu.

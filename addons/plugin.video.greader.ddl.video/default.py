@@ -20,7 +20,7 @@ from pprint import pprint
 from TaskQueue import TaskQueue
 from threading import Thread
 
-DEBUG = False
+DEBUG = True
 
 xbmcplugin.setContent(int(sys.argv[1]), 'movies')
 
@@ -420,8 +420,7 @@ def getSingleFileLinks( text ):
     if not link_matches:
         doLog( "getSingleFileLinks no links found" )
         dp.update(100,"None found")
-        #del dp
-        dp.close()
+        del dp
         return links
 
     dp.update(0, "Removing duplicate links")
@@ -440,10 +439,8 @@ def getSingleFileLinks( text ):
             url = q.get()
             valid_link = getHFLink( hotfile_user, hotfile_pass, url )
             if valid_link:
-                dp.update(0, "Link is good:", url)
                 links.append( valid_link )
             else:
-                dp.update(0, "Link is bad:", url)
                 doLog( "getSingleFileLinks NOT ADDING: " + url )
             q.task_done()
 
@@ -465,8 +462,7 @@ def getSingleFileLinks( text ):
 
     doLog( "getSingleFileLinks done" )
     dp.update(100, "Done getting single file links!")
-    #del dp
-    dp.close()
+    del dp
     return links
 
 
@@ -616,7 +612,7 @@ def addDir( name, url, mode, thumbnail="default.png", plot_text=None, feed_item=
 
         if plot_text:
             plot_text = html2text.html2text(plot_text.decode('utf-8'))
-            #item.setInfo( type="Video", infoLabels={ "Plot": plottext.encode( "utf-8" ), "Trailer": "http://pdl.stream.aol.com/pdlext/aol/brightcove/us/moviefone/trailers/2010/tronlegacy_038736/tronlegacy_trlr_02_480p_dl.mov" } )
+	    #infoLabels["Trailer"] = "plugin://plugin.video.youtube/?action=play_video&videoid=aVdO-cx-McA"
             infoLabels["Plot"] = plot_text.encode( "utf-8" )
 
         item.setInfo( type="Video", infoLabels=infoLabels )
