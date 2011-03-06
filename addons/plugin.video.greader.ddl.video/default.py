@@ -27,87 +27,6 @@ xbmcplugin.setContent(int(sys.argv[1]), 'movies')
 
 #############################################
 
-def rarPlaylistTest( url ):
-    #rar://http%3a%2f%2f127%2e0%2e0%2e1%3a5150%2f56c08d4653baa36dd21adf03c3fe6151%2fbesthd%2dtoy%2estory%2d720p%2emkv%2epart1%2erar/besthd-toy.story-720p-up.by.nicky.mkv
-    u='rar://http%3A%2f%2f127%2e0%2e0%2e1%3A5150%2f5f708940c09e59a5533e8261d445d59e%2fUnstoppable%2e2010%2e720p%2eBRRip%2eXviD%2eAC3%2dViSiON%2epart1%2erar/Unstoppable.2010.720p.BRRip.XviD.AC3-ViSiON/Unstoppable.2010.720p.BRRip.XviD.AC3-ViSiON.avi'
-    ok=True
-    title = "rarPlaylistTest"
-    liz=xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
-    liz.setInfo( type="Video", infoLabels={ "Title": title,
-                                            "Plot": "TEST PLOT"
-                                            })
-    liz.setProperty('IsPlayable', 'true')
-    ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
-    print "rarPlaylistTest"
-
-
-
-
-def playlistTest3( url ):
-
-    u='rar://http%3A%2F%2F127.0.0.1%3A5150%2Fidiot.part1.rar/dmd-idiocracy.avi'
-    ok=True
-    title = "PLAYLIST TEST"
-    liz=xbmcgui.ListItem(title, iconImage="DefaultFolder.png")
-    liz.setInfo( type="Video", infoLabels={ "Title": title,
-                                            "Plot": "TEST PLOT"
-                                            })
-    liz.setProperty('IsPlayable', 'true')
-    ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
-    print "PLAYLIST3"
-
-
-def playlistTest( url ):
-    global hotfile_user, hotfile_pass
-
-    link = getHFLink( hotfile_user, hotfile_pass, 'http://' )
-
-    print "LINK START: " + link
-    rar_file = rarfile.RarFile( link )
-    
-    movie_name = None
-    for filename in rar_file.namelist():
-        #filename = filename.replace('\\','/')
-        filename_lower = filename.lower()
-        if filename_lower.endswith(".avi") or \
-            filename_lower.endswith(".mkv") or \
-            filename_lower.endswith(".mpg") or \
-            filename_lower.endswith(".ts") or \
-            filename_lower.endswith(".wmv"):
-            break
-
-    print "FILENAME: " + filename
-    
-    if ( link[0:4] == "http" ):
-        #link = link[7:]
-        print "LINK: " + link
-        video_url = urllib.quote( link ).replace("-", "%2d").replace(".", "%2e").replace("/", "%2f")
-        video_url1 = "rar://" + video_url + "/" + filename
-
-        print "VIDEO_URL1: " + video_url1
-
-        #addLink( '', video_url )
-    else:
-        print "playlistTest NOT ADDING: " + link
-
-    link = getHFLink( hotfile_user, hotfile_pass, 'http://' )
-    if ( link[0:4] == "http" ):
-        #link = link[7:]
-        video_url = urllib.quote( link ).replace("-", "%2d").replace(".", "%2e").replace("/", "%2f")
-        video_url2 = "rar://" + video_url + "/" + filename
-        
-        print "VIDEO_URL2: " + video_url2
-
-        #addLink( '', video_url )
-    else:
-        print "playlistTest NOT ADDING: " + link
-
-    playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-    playlist.add(url=video_url1)
-    playlist.add(url=video_url2)
-    xbmc.Player(xbmc.PLAYER_CORE_MPLAYER).play(playlist)
-
-
 # addon_path is this plugins path. i.e. plugin://plugin.video.myplugin/
 def switchToLibraryMode(addon_path):
     # are we in library mode yet?
@@ -200,14 +119,49 @@ def showFeedItems( feedId ):
     try:
         for item in items:
             #print "ITEM ID: %s \nTITLE: %s \nURL: %s" % ( str(item.id), str(item.title), str(item.url) )
-            #pprint(vars( item.data['enclosure'] ))
+            #pprint( item.data['enclosure'][0]['href'] )
 
+            title = item.title.encode('utf-8')
             thumbnail = getFeedItemImage( item.content )
             imdb_id = getImdbId( item.content )
             if not imdb_id: # maybe its a tv show. TODO CHANGE NAME imdb_id CUZ WE MIGHT HAVE A TV.COM LINK!
                 imdb_id = getTVComId( item.content )
             itemPlot = item.content
-            addDir( item.title.encode('utf-8'), item.url, 4, thumbnail=thumbnail, plot_text=itemPlot, feed_item=item, imdb_id=imdb_id )
+
+            # prepare to test type of feed item. lot of try's to be thorough
+            try:
+                item_enclosure_url = item.data['enclosure'][0]['href']
+            except:
+                try:
+                    item_enclosure_url = item.data['alternate'][0]['href']
+                except:
+                    item_enclosure_url = ''
+
+            try:
+                item_enclosure_type = item.data['enclosure'][0]['type']
+            except:
+                try:
+                    item_enclosure_type = item.data['alternate'][0]['type']
+                except:
+                    item_enclosure_type = ''
+
+            try:
+                item_enclosure_size = int(item.data['enclosure'][0]['length'])
+            except:
+                try:
+                    item_enclosure_size = int(item.data['alternate'][0]['length'])
+                except:
+                    item_enclosure_size = 0
+            
+            # is this an nzb?
+            if item_enclosure_url.lower().endswith('.nzb') or item_enclosure_type.lower() == 'application/x-nzb':
+                # yes it is so send to sabnzb addon
+                url = 'plugin://plugin.program.SABnzbd/?download_nzb="""%s!?!%s!?!%s!?!%s"""' % ( urllib.quote_plus(item_enclosure_url), title, '', 'movies' )
+                addLink( name=title, url=url, thumbnail=thumbnail, plot_text=itemPlot, size=item_enclosure_size )
+            else:
+                # no it isnt
+                addDir( title, item.url, 4, thumbnail=thumbnail, plot_text=itemPlot, feed_item=item, imdb_id=imdb_id )
+                
     except TypeError:
         traceback.print_exc()
         pass
@@ -573,7 +527,9 @@ def getUrl(url):
 
 
 
-def addLink( name, url, thumbnail="default.png" ):
+def addLink( name, url, thumbnail="default.png", plot_text="None", size=0 ):
+        infoLabels = { "Title": name }
+
         item = xbmcgui.ListItem( name, iconImage="DefaultVideo.png", thumbnailImage=thumbnail )
         
         contextMenuItems = [
@@ -582,7 +538,10 @@ def addLink( name, url, thumbnail="default.png" ):
                            ]
         #item.addContextMenuItems( contextMenuItems, replaceItems=True )
 
-        item.setInfo( type="Video", infoLabels={ "Title": name } )
+        if size:
+            infoLabels['Size'] = size
+        
+        item.setInfo( type="Video", infoLabels=infoLabels )
         ok = xbmcplugin.addDirectoryItem( handle=int( sys.argv[1] ), url=url, listitem=item )
         return ok
 

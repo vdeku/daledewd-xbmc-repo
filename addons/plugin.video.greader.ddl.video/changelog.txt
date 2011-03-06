@@ -1,3 +1,9 @@
+[B]v1.3.0[/B]
+- Can send NZB items to the SABnzb addon (required). Tested and works with nzb.su, nzbindex.nl, medianzb. Might work with others but I don't promote the nzb indexes that are a pain in the ass to get into greader.
+  nzb.su seems to be the best so far since my existing code to scrape an image already works.
+  I'll add imdb/tmdb scraping later. Hesitating until I lower the number of feed items shown which is currently 100 and could take forever for a listing!
+- Known issue is that the plot text is missing until I figure out wth the "must be unicode or str" TypeError is really caused by. So sick of this unicode crap!
+
 [B]v1.2.6[/B]
 - Fix freezing with "working..." notice because dialog closing race condition. Had to remove dialog update statuses when parsing links for now.
 
