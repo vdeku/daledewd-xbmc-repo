@@ -2,7 +2,7 @@
 <addons>
 <addon id="plugin.video.greader.ddl.video"
        name="GReader DDL Video"
-       version="1.2.6"
+       version="1.3.0"
        provider-name="daledude">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -21,7 +21,7 @@ It may already allow downloading through the File Manager but I have code ready 
 
 REQUIREMENTS:
 * Google Reader account.
-* Premium hotfile account.
+* Premium hotfile account or usenet account for nzbs.
 * Feeds need to be in at least one folder/category in Google Reader because this script gets a list of folders as the initial index and then drills down from there.
   You can use an existing Reader account as this script won't effect any of your feeds.
 
