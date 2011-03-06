@@ -1,3 +1,6 @@
+[B]v1.3.1[/B]
+- Fixed unicode error issues.
+
 [B]v1.3.0[/B]
 - Can send NZB items to the SABnzb addon (required). Tested and works with nzb.su, nzbindex.nl, medianzb. Might work with others but I don't promote the nzb indexes that are a pain in the ass to get into greader.
   nzb.su seems to be the best so far since my existing code to scrape an image already works.

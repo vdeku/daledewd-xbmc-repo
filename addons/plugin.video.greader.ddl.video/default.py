@@ -122,11 +122,11 @@ def showFeedItems( feedId ):
             #pprint( item.data['enclosure'][0]['href'] )
 
             title = item.title.encode('utf-8')
-            thumbnail = getFeedItemImage( item.content )
+            thumbnail = str(getFeedItemImage( item.content ))
             imdb_id = getImdbId( item.content )
             if not imdb_id: # maybe its a tv show. TODO CHANGE NAME imdb_id CUZ WE MIGHT HAVE A TV.COM LINK!
                 imdb_id = getTVComId( item.content )
-            itemPlot = item.content
+            itemPlot = str(item.content)
 
             # prepare to test type of feed item. lot of try's to be thorough
             try:
@@ -152,11 +152,15 @@ def showFeedItems( feedId ):
                     item_enclosure_size = int(item.data['alternate'][0]['length'])
                 except:
                     item_enclosure_size = 0
+
+            item_enclosure_type = str(item_enclosure_type)
+            item_enclosure_url = str(item_enclosure_url)
             
             # is this an nzb?
             if item_enclosure_url.lower().endswith('.nzb') or item_enclosure_type.lower() == 'application/x-nzb':
                 # yes it is so send to sabnzb addon
                 url = 'plugin://plugin.program.SABnzbd/?download_nzb="""%s!?!%s!?!%s!?!%s"""' % ( urllib.quote_plus(item_enclosure_url), title, '', 'movies' )
+                #addLink( name=title, url=url, thumbnail=thumbnail, size=item_enclosure_size )
                 addLink( name=title, url=url, thumbnail=thumbnail, plot_text=itemPlot, size=item_enclosure_size )
             else:
                 # no it isnt
@@ -325,6 +329,7 @@ def getFeedItemImage( content ):
     try:
         imgUrls = re.findall( 'img .*?src="(.*?)"', content, re.M|re.S )
     except TypeError:
+        traceback.print_exc()
         imgUrls = None
 
     if imgUrls:
@@ -527,8 +532,8 @@ def getUrl(url):
 
 
 
-def addLink( name, url, thumbnail="default.png", plot_text="None", size=0 ):
-        infoLabels = { "Title": name }
+def addLink( name, url, thumbnail="default.png", plot_text='', size=0 ):
+        infoLabels = { "Title": str(name) }
 
         item = xbmcgui.ListItem( name, iconImage="DefaultVideo.png", thumbnailImage=thumbnail )
         
@@ -537,6 +542,10 @@ def addLink( name, url, thumbnail="default.png", plot_text="None", size=0 ):
                              ('Download', 'XBMC.RunPlugin(%s?mode=9&url=%s)' % (sys.argv[0], url))
                            ]
         #item.addContextMenuItems( contextMenuItems, replaceItems=True )
+
+        if plot_text:
+            plot_text = html2text.html2text(plot_text)
+            infoLabels["Plot"] = plot_text
 
         if size:
             infoLabels['Size'] = size
